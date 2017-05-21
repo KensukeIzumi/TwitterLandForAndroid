@@ -35,7 +35,6 @@ public class TwitterOAuthActivity extends AppCompatActivity {
                 startAuthorize();
             }
         });
-
     }
 
     public void startAuthorize() {

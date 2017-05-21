@@ -4,4 +4,7 @@
     <string name="twitter_callback_url">twitterlandforandroid://callback</string>
     <string name="consumer_key">7Cro3uNhQWMykQm4j2e0HaRE8</string>
     <string name="consumer_key_secret">iY4gwphdIK1Y6CLUIjwBwU70kvQrXUJ8KSVhzjbJpyOpKZIyqH</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
