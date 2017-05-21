@@ -9,13 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class TimelineFeedFragment extends Fragment {
+public class TimelineFeedFragment extends Fragment implements TimelineFeedAdapter.postOnClickHandler{
     private View mView;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
+    private Toast mToast;
 
     public TimelineFeedFragment() {
     }
@@ -37,7 +39,7 @@ public class TimelineFeedFragment extends Fragment {
 
         String[] posts = {"AAA", "BBB", "CCC"};
 
-        mAdapter = new TimelineFeedAdapter(posts);
+        mAdapter = new TimelineFeedAdapter(this, posts);
         mRecyclerView.setAdapter(mAdapter);
 
         return mView;
@@ -56,5 +58,15 @@ public class TimelineFeedFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    @Override
+    public void OnClickHandler(String text) {
+        if (mToast != null) {
+            mToast.cancel();
+        }
+        String message = text + " is clicked";
+        mToast = Toast.makeText(getContext(), message, Toast.LENGTH_SHORT);
+        mToast.show();
     }
 }

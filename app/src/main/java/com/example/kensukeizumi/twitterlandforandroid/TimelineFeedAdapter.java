@@ -17,9 +17,15 @@ import java.util.ArrayList;
 
 public class TimelineFeedAdapter extends RecyclerView.Adapter<TimelineFeedAdapter.TimelineFeedAdapterViewHolder> {
     private String[] mPosts;
+    final private TimelineFeedAdapter.postOnClickHandler mListener;
 
-    public TimelineFeedAdapter(String[] posts) {
+    public interface postOnClickHandler {
+        void OnClickHandler(String text);
+    }
+
+    public TimelineFeedAdapter(TimelineFeedAdapter.postOnClickHandler postOnClickHandler, String[] posts) {
         mPosts = posts;
+        mListener = postOnClickHandler;
     }
 
     public class TimelineFeedAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -34,6 +40,7 @@ public class TimelineFeedAdapter extends RecyclerView.Adapter<TimelineFeedAdapte
         @Override
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
+            mListener.OnClickHandler(mPosts[adapterPosition]);
         }
     }
 
