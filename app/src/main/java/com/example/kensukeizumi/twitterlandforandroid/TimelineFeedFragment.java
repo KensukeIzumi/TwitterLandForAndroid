@@ -48,14 +48,8 @@ public class TimelineFeedFragment extends Fragment implements TimelineFeedAdapte
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setHasFixedSize(true);
 
-        mPosts = new ArrayList<String>();
-        mPosts.add("AAA");
-        mPosts.add("BBB");
-        mPosts.add("CCC");
-
-        mAdapter = new TimelineFeedAdapter(this, mPosts);
+        mAdapter = new TimelineFeedAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
-        Log.d("++++++++++++++", "onCreateView");
 
         loadTimelinePosts();
 
@@ -66,14 +60,14 @@ public class TimelineFeedFragment extends Fragment implements TimelineFeedAdapte
         new FetchPostsTask().execute();
     }
 
-    public class FetchPostsTask extends AsyncTask<Void, Void, ArrayList<String>> {
+    public class FetchPostsTask extends AsyncTask<Void, Void, ArrayList<Status>> {
         @Override
-        protected ArrayList<String> doInBackground(Void... params) {
+        protected ArrayList<twitter4j.Status> doInBackground(Void... params) {
             try {
-                ArrayList<String> list = new ArrayList<>();
+                ArrayList<twitter4j.Status> list = new ArrayList<>();
                 ResponseList<twitter4j.Status> timeline = mTwitter.getHomeTimeline();
                 for (twitter4j.Status post : timeline) {
-                    list.add(post.getText());
+                    list.add(post);
                 }
                 return list;
             } catch (TwitterException e) {
@@ -83,7 +77,7 @@ public class TimelineFeedFragment extends Fragment implements TimelineFeedAdapte
         }
 
         @Override
-        protected void onPostExecute(ArrayList<String> arrayList) {
+        protected void onPostExecute(ArrayList<twitter4j.Status> arrayList) {
             if (arrayList != null) {
                 mAdapter.setTimelinePosts(arrayList);
             } else {
