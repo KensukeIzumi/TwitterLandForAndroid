@@ -1,6 +1,7 @@
 package com.example.kensukeizumi.twitterlandforandroid;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
+import java.net.URI;
 import java.util.ArrayList;
 
 import twitter4j.Status;
@@ -19,6 +23,7 @@ import twitter4j.User;
 
 public class TimelineFeedAdapter extends RecyclerView.Adapter<TimelineFeedAdapter.TimelineFeedAdapterViewHolder> {
     private ArrayList<Status> mPosts = new ArrayList<Status>();
+    private Context mContext;
     final private TimelineFeedAdapter.postOnClickHandler mListener;
 
     public interface postOnClickHandler {
@@ -53,8 +58,8 @@ public class TimelineFeedAdapter extends RecyclerView.Adapter<TimelineFeedAdapte
 
     @Override
     public TimelineFeedAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        mContext = parent.getContext();
+        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
         View view = layoutInflater.inflate(R.layout.list_item_tweet, parent, false);
 
         return new TimelineFeedAdapterViewHolder(view);
@@ -76,6 +81,9 @@ public class TimelineFeedAdapter extends RecyclerView.Adapter<TimelineFeedAdapte
         holder.mUserNameTextView.setText(user.getName());
         holder.mUserScreenNameTextView.setText(user.getScreenName());
         holder.mPostTextView.setText(post.getText());
+
+        Uri uri = Uri.parse(user.getProfileImageURL());
+        Picasso.with(mContext).load(uri).into(holder.mIconImageView);
     }
 
     public void setTimelinePosts(ArrayList<Status> tweets) {
