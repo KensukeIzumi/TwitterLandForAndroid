@@ -16,14 +16,14 @@ import java.util.ArrayList;
  */
 
 public class TimelineFeedAdapter extends RecyclerView.Adapter<TimelineFeedAdapter.TimelineFeedAdapterViewHolder> {
-    private String[] mPosts;
+    private ArrayList<String> mPosts;
     final private TimelineFeedAdapter.postOnClickHandler mListener;
 
     public interface postOnClickHandler {
         void OnClickHandler(String text);
     }
 
-    public TimelineFeedAdapter(TimelineFeedAdapter.postOnClickHandler postOnClickHandler, String[] posts) {
+    public TimelineFeedAdapter(TimelineFeedAdapter.postOnClickHandler postOnClickHandler, ArrayList<String> posts) {
         mPosts = posts;
         mListener = postOnClickHandler;
     }
@@ -40,7 +40,7 @@ public class TimelineFeedAdapter extends RecyclerView.Adapter<TimelineFeedAdapte
         @Override
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
-            mListener.OnClickHandler(mPosts[adapterPosition]);
+            mListener.OnClickHandler(mPosts.get(adapterPosition));
         }
     }
 
@@ -60,11 +60,16 @@ public class TimelineFeedAdapter extends RecyclerView.Adapter<TimelineFeedAdapte
             return 0;
         }
 
-        return mPosts.length;
+        return mPosts.size();
     }
 
     @Override
     public void onBindViewHolder(TimelineFeedAdapterViewHolder holder, int position) {
-        holder.mPostTextView.setText(mPosts[position]);
+        holder.mPostTextView.setText(mPosts.get(position));
+    }
+
+    public void setTimelinePosts(ArrayList<String> tweets) {
+        mPosts = tweets;
+        notifyDataSetChanged();
     }
 }
