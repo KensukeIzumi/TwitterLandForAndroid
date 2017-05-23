@@ -2,54 +2,60 @@ package com.example.kensukeizumi.twitterlandforandroid;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+
+import twitter4j.Status;
+import twitter4j.User;
 
 /**
  * Created by kensukeizumi on 2017/05/20.
  */
 
 public class TimelineFeedAdapter extends RecyclerView.Adapter<TimelineFeedAdapter.TimelineFeedAdapterViewHolder> {
-    private ArrayList<String> mPosts;
+    private ArrayList<Status> mPosts = new ArrayList<Status>();
     final private TimelineFeedAdapter.postOnClickHandler mListener;
 
     public interface postOnClickHandler {
         void OnClickHandler(String text);
     }
 
-    public TimelineFeedAdapter(TimelineFeedAdapter.postOnClickHandler postOnClickHandler, ArrayList<String> posts) {
-        mPosts = posts;
+    public TimelineFeedAdapter(TimelineFeedAdapter.postOnClickHandler postOnClickHandler) {
         mListener = postOnClickHandler;
     }
 
-    public class TimelineFeedAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class TimelineFeedAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public final ImageView mIconImageView;
+        public final TextView mUserNameTextView;
+        public final TextView mUserScreenNameTextView;
         public final TextView mPostTextView;
 
         public TimelineFeedAdapterViewHolder(View view) {
             super(view);
-            mPostTextView = (TextView) view.findViewById(R.id.post_item_data);
+            mIconImageView = (ImageView) view.findViewById(R.id.icon);
+            mUserNameTextView = (TextView) view.findViewById(R.id.user_name);
+            mUserScreenNameTextView = (TextView) view.findViewById(R.id.user_screen_name);
+            mPostTextView = (TextView) view.findViewById(R.id.tweet_text);
             mPostTextView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
-            mListener.OnClickHandler(mPosts.get(adapterPosition));
+            mListener.OnClickHandler(mPosts.get(adapterPosition).getText());
         }
     }
-
 
     @Override
     public TimelineFeedAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(R.layout.post_list_item, parent, false);
+        View view = layoutInflater.inflate(R.layout.list_item_tweet, parent, false);
 
         return new TimelineFeedAdapterViewHolder(view);
     }
@@ -65,10 +71,14 @@ public class TimelineFeedAdapter extends RecyclerView.Adapter<TimelineFeedAdapte
 
     @Override
     public void onBindViewHolder(TimelineFeedAdapterViewHolder holder, int position) {
-        holder.mPostTextView.setText(mPosts.get(position));
+        Status post = mPosts.get(position);
+        User user = post.getUser();
+        holder.mUserNameTextView.setText(user.getName());
+        holder.mUserScreenNameTextView.setText(user.getScreenName());
+        holder.mPostTextView.setText(post.getText());
     }
 
-    public void setTimelinePosts(ArrayList<String> tweets) {
+    public void setTimelinePosts(ArrayList<Status> tweets) {
         mPosts = tweets;
         notifyDataSetChanged();
     }
