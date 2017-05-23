@@ -14,11 +14,11 @@ android {
     buildTypes {
         debug {
             if (project.hasProperty('consumerKey')) {
-                buildconfigfield 'String', 'CONSUMER_KEY', project.consumerKey
+                buildConfigField 'String', 'CONSUMER_KEY', project.consumerKey
             }
 
             if (project.hasProperty('consumerSecretKey')) {
-                buildconfigfield 'String', 'CONSUMER_SECRET_KEY', project.consumerSecretKey
+                buildConfigField 'String', 'CONSUMER_SECRET_KEY', project.consumerSecretKey
             }
         }
         release {
@@ -26,11 +26,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
             if (project.hasProperty('consumerKey')) {
-                buildconfigfield 'String', 'CONSUMER_KEY', project.consumerKey
+                buildConfigField 'String', 'CONSUMER_KEY', project.consumerKey
             }
 
             if (project.hasProperty('consumerSecretKey')) {
-                buildconfigfield 'String', 'CONSUMER_SECRET_KEY', project.consumerSecretKey
+                buildConfigField 'String', 'CONSUMER_SECRET_KEY', project.consumerSecretKey
             }
         }
     }
