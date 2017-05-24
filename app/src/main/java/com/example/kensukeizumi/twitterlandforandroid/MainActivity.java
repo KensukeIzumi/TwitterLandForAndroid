@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private Toast mToast;
+    private TimelineFeedFragment mTimelineFeedFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     mToast = Toast.makeText(MainActivity.this, "reload is clicked", Toast.LENGTH_LONG);
                     mToast.show();
+                    mTimelineFeedFragment.loadTimelinePosts();
                 }
 
                 if (id == R.id.move_to_post) {
@@ -54,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        Fragment fragment = new TimelineFeedFragment();
-        fragmentTransaction.add(R.id.container, fragment);
+        mTimelineFeedFragment = new TimelineFeedFragment();
+        fragmentTransaction.add(R.id.container, mTimelineFeedFragment);
         fragmentTransaction.commit();
     }
 }
