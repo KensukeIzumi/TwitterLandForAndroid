@@ -2,4 +2,6 @@
     <string name="app_name">TwitterLandForAndroid</string>
     <string name="start_oauth">Twitter認証</string>
     <string name="twitter_callback_url">twitterlandforandroid://callback</string>
+    <string name="reload">Reload</string>
+    <string name="move_to_post">Move to post</string>
 </resources>
